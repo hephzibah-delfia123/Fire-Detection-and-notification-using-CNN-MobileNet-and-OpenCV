@@ -48,12 +48,13 @@ alarm_status = False
 email_status = False
 
 # Getting the location of the fire accident
+geolocator = Nominatim(user_agent="geoapiExercises")
 res = requests.get('https://ipinfo.io/')
 data = res.json()
 loc = data['loc'].split(',')
 lat = loc[0]
 long = loc[1]
-location = geolocator.reverse(Latitude+","+Longitude)
+location = geolocator.reverse(lat+","+long)
   
 # Address stored in message string
 message = "Fire Accident occured at ABC Company.\nLocation:\nAddress:"+str(location)+"\nLatitude:"+lat+"\nLongitude:"+long
@@ -71,7 +72,7 @@ def notify():
         server.sendmail('your_mail_id', to_email,message)
         print("Email sent to " + to_email)
         server.close()
-        wp.sendwhatmsg("+919766712345",emoji.emojize(":loudspeaker::loudspeaker: :loudspeaker:\n\nFire :fire: occured at ABC company.\nLocation:")+str(location)+"\ \nLATITUDE : ") + lat + "\tLONGITUDE : " + long + emoji.emojize("\n\n:police_car_light::police_car_light::police_car_light:"),datetime.now().hour,datetime.now().minute+1,4)    
+        wp.sendwhatmsg("+919766712345",emoji.emojize(":loudspeaker::loudspeaker: :loudspeaker:\n\nFire :fire: occured at ABC company.\nLocation:")+str(location)+"\ \nLATITUDE : " + lat + "\tLONGITUDE : " + long + emoji.emojize("\n\n:police_car_light::police_car_light::police_car_light:"),datetime.now().hour,datetime.now().minute+1,4)    
         print("Whatsapp message sent!!")
     except Exception as e:
         print(e)
